@@ -54,9 +54,34 @@ public Complex[] FFT(Complex[] x) {
   return y;
 }
 
+// Generate the coefficients for the Descrite Fourier Series
+public void genFourierSeriesCoefficients(Complex[] inp) {
+  String output = "x(t) = ";
+  float[] xt = new float[inp.length];
+  int P = 1;
+  output += (float)(Math.sqrt((inp[0].getReal() * inp[0].getReal()) + (inp[0].getImag() * inp[0].getImag()))) + " + "; 
+  println(output);
+  for(int n = 1; n < xt.length; n++) {
+    float An = (float)(Math.sqrt((inp[n].getReal() * inp[n].getReal()) + (inp[n].getImag() * inp[n].getImag())));
+    float phi = (float)(Math.atan2((double)(-1 * inp[n].getImag()), (double)(inp[n].getReal())));
+    println(An + " * cos(2 * PI * " + n + " * t / " + P + " + "  + phi + ") + ");
+    output += An + " * cos(2 * PI * " + n + " * t / " + P + " + "  + phi + ") + ";
+  }
+  output = output.substring(0, output.length() - 2);
+  println(output);
+  num1.println(output);
+  
+  
+}
+
+
+PrintWriter num1;
 
 void setup() {
-  int n = 4;
+  // Set up text file for data logging
+  num1 = createWriter("datalog.txt");
+  
+  int n = 16;
   Complex[] input = new Complex[n];
   for (int i = 0; i < n; i++) {
     input[i] = new Complex((float)(-2 * Math.random() + 1), 0);
@@ -68,6 +93,13 @@ void setup() {
     println(a.toString());
   }
   
+  genFourierSeriesCoefficients(y);
+  
+  // Writes the remaining data to the file
+  num1.flush(); 
+  // Finishes the file
+  num1.close(); 
+
   exit();
 }
 
