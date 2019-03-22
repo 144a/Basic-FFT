@@ -32,5 +32,9 @@ public class Complex {
   public float getImag() {
     return b;
   }
+
+  public String toString() {
+    return getReal() + " + " + getImag() + "i";
+  }
   
 }
